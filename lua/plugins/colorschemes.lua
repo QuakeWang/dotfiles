@@ -36,6 +36,7 @@ return {
             surface1 = "#2A2D2E",
             surface0 = "#232728",
             base = "#1D2021",
+            -- base = "#0E1419", -- dark color
             mantle = "#191C1D",
             crust = "#151819",
           },
@@ -64,18 +65,18 @@ return {
             CursorLineNr = { fg = colors.surface2 },
             Pmenu = { bg = colors.crust, fg = "" },
             PmenuSel = { bg = colors.surface0, fg = "" },
-            -- TelescopeSelection = { bg = colors.surface0 },
-            -- TelescopePromptCounter = { fg = colors.mauve },
-            -- TelescopePromptPrefix = { bg = colors.surface0 },
-            -- TelescopePromptNormal = { bg = colors.surface0 },
-            -- TelescopeResultsNormal = { bg = colors.mantle },
-            -- TelescopePreviewNormal = { bg = colors.crust },
-            -- TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
-            -- TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
-            -- TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
-            -- TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
-            -- TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
-            -- TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
+            TelescopeSelection = { bg = colors.surface0 },
+            TelescopePromptCounter = { fg = colors.mauve },
+            TelescopePromptPrefix = { bg = colors.surface0 },
+            TelescopePromptNormal = { bg = colors.surface0 },
+            TelescopeResultsNormal = { bg = colors.mantle },
+            TelescopePreviewNormal = { bg = colors.crust },
+            TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
+            TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
+            TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
+            TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
+            TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
+            TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
             IndentBlanklineChar = { fg = colors.surface0 },
             IndentBlanklineContextChar = { fg = colors.surface2 },
             GitSignsChange = { fg = colors.peach },
@@ -96,10 +97,97 @@ return {
     enabled = true,
     priority = 1000,
     config = function()
-      vim.o.background = "dark"
-      vim.g.gruvbox_material_background = "hard"
+      -- vim.o.background = "dark"
+      -- vim.g.gruvbox_material_background = "hard"
       -- vim.g.gruvbox_material_transparent_background = 1
-      vim.cmd.colorscheme 'gruvbox-material'
+      -- vim.cmd.colorscheme 'gruvbox-material'
     end,
   },
+  {
+    "oxfist/night-owl.nvim",
+    enabled = false,
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- load the colorscheme here
+      -- vim.cmd.colorscheme("night-owl")
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    enabled = false,
+    config = function()
+      require("kanagawa").setup({
+        overrides = function(colors)
+          local theme = colors.theme
+          return {
+            Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
+            PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+            PmenuSbar = { bg = theme.ui.bg_m1 },
+            PmenuThumb = { bg = theme.ui.bg_p2 },
+            TelescopeTitle = { fg = theme.ui.special, bold = true },
+            TelescopePromptNormal = { bg = theme.ui.bg_p1 },
+            TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
+            TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
+            TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
+            TelescopePreviewNormal = { bg = theme.ui.bg_dim },
+            TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
+          }
+        end,
+        colors = {
+          theme = {
+            all = {
+              ui = {
+                bg_gutter = "none"
+              }
+            }
+          }
+        }
+      })
+      -- vim.cmd("colorscheme kanagawa-wave")
+    end
+  },
+  {
+    'Mofiqul/dracula.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      colors = {
+        -- Overrides.
+        bg = '#0E1419',
+        -- bright_red = '#EC6A88',
+        comment = '#B08BBB',
+        -- orange = '#FFBFA9',
+        -- red = '#E95678',
+        selection = '#3C4148',
+        -- -- Some extra colors.
+        -- fuchsia = '#E11299',
+        -- grey = '#A9ABAC',
+        -- lavender = '#6272A4',
+        -- lilac = '#6D5978',
+        -- transparent_blue = '#19272C',
+        -- transparent_red = '#342231',
+        -- transparent_yellow = '#202624',
+      },
+      italic_comment = false
+    },
+    config = function(_, opts)
+      require('dracula').setup(opts)
+      -- vim.cmd("colorscheme dracula")
+    end,
+  },
+  {
+    "sainnhe/everforest",
+    config = function()
+      vim.o.background = "dark"
+      vim.g.everforest_background = "hard"
+      vim.g.everforest_enable_italic = 0
+      vim.g.everforest_ui_contrast = "high"
+      vim.g.everforest_float_style = "dim"
+      -- vim.g.everyforest_transparent_background = 1
+
+      vim.g.everforest_better_performance = 1
+      vim.cmd("colorscheme everforest")
+    end
+  }
 }

@@ -13,6 +13,10 @@ return {
       'telescope-dap.nvim',
       'kkharji/sqlite.lua',
       'nvim-telescope/telescope-frecency.nvim',
+      -- {
+      --   "nvim-telescope/telescope-file-browser.nvim",
+      --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+      -- }
     },
     config = function()
       local telescope = require('telescope')
@@ -36,31 +40,41 @@ return {
         },
         pickers = {
           find_files = {
-            theme = "dropdown",
-            previewer = false,
+            -- theme = "dropdown",
+            previewer = true,
             layout_config = {
-              width = 0.5,
-              height = 0.4,
+              -- width = 0.5,
+              height = 0.8,
               prompt_position = "top",
               preview_cutoff = 120,
             },
           },
           git_files = {
-            previewer = false,
-            theme = "dropdown",
+            previewer = true,
+            -- theme = "dropdown",
             layout_config = {
-              width = 0.5,
-              height = 0.4,
+              -- width = 0.5,
+              height = 0.8,
               prompt_position = "top",
               preview_cutoff = 120,
             },
           },
           buffers = {
             previewer = false,
-            theme = "dropdown",
+            -- theme = "dropdown",
             layout_config = {
               width = 0.5,
               height = 0.4,
+              prompt_position = "top",
+              preview_cutoff = 120,
+            },
+          },
+          current_buffer_fuzzy_find = {
+            previewer = true,
+            -- theme = "dropdown",
+            layout_config = {
+              -- width = 0.5,
+              height = 0.8,
               prompt_position = "top",
               preview_cutoff = 120,
             },
@@ -142,7 +156,21 @@ return {
               "*/tmp/*",
               "*/lua-language-server/*",
             },
-          }
+          },
+          -- file_browser = {
+          --   -- theme = "",
+          --   previewer = true,
+          --   -- disables netrw and use telescope-file-browser in its place
+          --   hijack_netrw = true,
+          --   -- mappings = {
+          --   --   ["i"] = {
+          --   --     -- your custom insert mode mappings
+          --   --   },
+          --   --   ["n"] = {
+          --   --     -- your custom normal mode mappings
+          --   --   },
+          --   -- },
+          -- },
         }
       }
       telescope.load_extension('fzf')
@@ -151,6 +179,7 @@ return {
       telescope.load_extension('dap')
       telescope.load_extension("zoxide")
       telescope.load_extension("frecency")
+      -- telescope.load_extension("file_browser")
     end
   },
 }

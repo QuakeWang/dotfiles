@@ -57,14 +57,10 @@ map("n", "<CR>", "ciw", opts)
 map("n", "<BS>", 'ci', opts)
 
 -- map ; to resume last search
-map("n", ";", "<cmd>lua require('telescope.builtin').resume(require('telescope.themes').get_dropdown({}))<cr>", opts)
+map("n", ";", "<cmd>Telescope resume<cr>", opts)
 
-vim.keymap.set('n', '<C-s>', function()
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = 'Fuzzily search in current buffer' })
+-- search current buffer
+map("n", "<C-s>", ":Telescope current_buffer_fuzzy_find<CR>", opts)
 
 -- Split line with X
 map('n', 'X', ':keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==^<cr>', { silent = true })
