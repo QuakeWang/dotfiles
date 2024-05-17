@@ -1,3 +1,1 @@
-# Neovim configuration
-
-Always a WIP.
+# dotfiles(WIP)
