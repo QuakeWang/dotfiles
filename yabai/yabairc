@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+# global settings
+yabai -m config mouse_follows_focus off
+yabai -m config focus_follows_mouse off
+yabai -m config window_origin_display default
+yabai -m config window_placement second_child
+yabai -m config window_topmost off
+yabai -m config window_shadow float
+yabai -m config window_opacity on
+yabai -m config window_opacity_duration 0.15
+yabai -m config active_window_opacity 0.95
+yabai -m config normal_window_opacity 0.85
+yabai -m config window_border on
+yabai -m config window_border_width 4
+yabai -m config active_window_border_color 0xff8CABC8
+yabai -m config normal_window_border_color 0xff2a2f38
+yabai -m config insert_feedback_color 0xff9dd274
+yabai -m config split_ratio 0.50
+yabai -m config auto_balance off
+yabai -m config mouse_modifier alt
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
+yabai -m config mouse_drop_action swap
+yabai -m config external_bar all:53:0
+
+# general space settings
+yabai -m config layout bsp
+yabai -m config top_padding 2
+yabai -m config bottom_padding 3
+yabai -m config left_padding 5
+yabai -m config right_padding 5
+yabai -m config window_gap 5
+# yabai -m config window_animation_duration    0.00
+
+yabai -m rule --add app="^iStat*" sticky=on layer=above manage=off border=off
+yabai -m rule --add app="^System Preferences*" manage=off
+
+# disable specific apps
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Preview$" manage=off
+yabai -m rule --add app="^WeChat$" manage=off
+yabai -m rule --add app="^NeatDownloadManager$" manage=off
+yabai -m rule --add app="^QQ音乐$" manage=off
+yabai -m rule --add app="^MonitorControl$" manage=off
+yabai -m rule --add app="^iShot$" manage=off border=off
+yabai -m rule --add app="^DesktopLauncher$" manage=off
+yabai -m rule --add app="^Loader$" manage=off
+# yabai -m rule --add app="^TencentMeeting$" manage=off
+
+echo "yabai configuration loaded.."
