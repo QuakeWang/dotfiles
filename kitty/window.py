@@ -25,10 +25,6 @@ def handle_result(args, answer, target_window_id, boss):
         window.write_to_child(f"\x1b[119;8u{act[1]}{secound}")
         return
 
-    if (act == "-close" or act == "-quit") and cmd[-7:] == "joshuto":
-        window.write_to_child(f"\x1b{act[1]}")
-        return
-
     def split(direction):
         if direction == "top" or direction == "bottom":
             boss.launch("--cwd=current", "--location=hsplit")
