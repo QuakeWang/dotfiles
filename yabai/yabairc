@@ -27,13 +27,18 @@ yabai -m config mouse_action2 resize
 yabai -m config mouse_drop_action swap
 yabai -m config external_bar all:53:0
 
+# signal with sketchybar
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+
 # general space settings
 yabai -m config layout bsp
 yabai -m config top_padding 2
 yabai -m config bottom_padding 3
 yabai -m config left_padding 5
 yabai -m config right_padding 5
-yabai -m config window_gap 5
+yabai -m config window_gap 4
 # yabai -m config window_animation_duration    0.00
 
 yabai -m rule --add app="^iStat*" sticky=on layer=above manage=off border=off
