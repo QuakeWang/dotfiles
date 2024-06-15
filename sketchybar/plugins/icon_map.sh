@@ -245,7 +245,7 @@ case $@ in
 "Spotlight")
 	icon_result=":spotlight:"
 	;;
-"Music" | "NetEaseMusic")
+"Music" | "NetEaseMusic" | "QQ音乐")
 	icon_result=":music:"
 	;;
 "Insomnia")
@@ -284,8 +284,20 @@ case $@ in
 "Affinity Designer")
 	icon_result=":affinity_designer:"
 	;;
-"IntelliJ IDEA")
+"IntelliJ IDEA" | "RustRover")
 	icon_result=":idea:"
+	;;
+"PyCharm")
+	icon_result=":pycharm:"
+	;;
+"DataGrip")
+	icon_result=":datagrip:"
+	;;
+"GoLand")
+	icon_result=":goland:"
+	;;
+"Docker" | "Docker Desktop")
+	icon_result=":docker:"
 	;;
 "Drafts")
 	icon_result=":drafts:"
@@ -359,8 +371,11 @@ case $@ in
 "Podcasts")
 	icon_result=":podcasts:"
 	;;
-"Alacritty" | "Hyper" | "iTerm2" | "kitty" | "Terminal" | "WezTerm")
+"Alacritty" | "Hyper" | "iTerm2" | "Terminal" | "WezTerm")
 	icon_result=":terminal:"
+	;;
+"kitty")
+	icon_result=":kitty:"
 	;;
 "Tor Browser")
 	icon_result=":tor_browser:"

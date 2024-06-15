@@ -6,8 +6,8 @@ music=(
 	background.color=$BACKGROUND_1
 	background.border_color=$BACKGROUND_2
 	script="$PLUGIN_DIR/music.sh"
-	click_script="open -a /Applications/NetEaseMusic.app"
+	click_script="open -a /Applications/QQ音乐.app"
 )
 
-sketchybar --add alias 'NetEaseMusic' right \
+sketchybar --add alias 'QQ音乐' right \
 	--set 'music' "${music[@]}"
