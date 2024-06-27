@@ -6,16 +6,16 @@ readonly MY_PATH="$HOME/workspaces/dotfiles"
 ## update all config
 
 ## btop
-cp "$HOME/.config/btop/"* "$MY_PATH/btop"
+cp -rf "$HOME/.config/btop/" "$MY_PATH/btop"
 
 ## fastfetch
-cp "$HOME/.config/fastfetch/"* "$MY_PATH/fastfetch"
+cp -rf "$HOME/.config/fastfetch/" "$MY_PATH/fastfetch"
 
 ## kitty
-cp "$HOME/.config/kitty/"* "$MY_PATH/kitty"
+cp -rf "$HOME/.config/kitty/" "$MY_PATH/kitty"
 
 ## neovim
-cp -r "$HOME/.config/nvim/"* "$MY_PATH/nvim/"
+cp -rf "$HOME/.config/nvim/" "$MY_PATH/nvim/"
 
 ## sketchybar
 cp -rf "$HOME/.config/sketchybar" "$MY_PATH/"

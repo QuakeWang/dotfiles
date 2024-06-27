@@ -34,17 +34,16 @@ yabai -m signal --add event=window_destroyed action="sketchybar --trigger window
 
 # general space settings
 yabai -m config layout bsp
-yabai -m config top_padding 2
+yabai -m config top_padding 1
 yabai -m config bottom_padding 3
 yabai -m config left_padding 5
 yabai -m config right_padding 5
 yabai -m config window_gap 4
 # yabai -m config window_animation_duration    0.00
 
+# disable specific apps
 yabai -m rule --add app="^iStat*" sticky=on layer=above manage=off border=off
 yabai -m rule --add app="^System Preferences*" manage=off
-
-# disable specific apps
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Preview$" manage=off
@@ -52,9 +51,14 @@ yabai -m rule --add app="^WeChat$" manage=off
 yabai -m rule --add app="^NeatDownloadManager$" manage=off
 yabai -m rule --add app="^QQ音乐$" manage=off
 yabai -m rule --add app="^MonitorControl$" manage=off
-yabai -m rule --add app="^iShot$" manage=off border=off
+yabai -m rule --add app="^iShotHelper$" manage=off border=off
 yabai -m rule --add app="^DesktopLauncher$" manage=off
 yabai -m rule --add app="^Loader$" manage=off
+yabai -m rule --add app="^BaiduNetdisk$" manage=off
+yabai -m rule --add app="^KeyboardHolder$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
 # yabai -m rule --add app="^TencentMeeting$" manage=off
+
+borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=3.0 &
 
 echo "yabai configuration loaded.."
