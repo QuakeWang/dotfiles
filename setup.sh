@@ -52,9 +52,12 @@ install () {
     fi
 }
 
-step "Installing dependencies/apps/sketchybar if not already installed"
+step "Installing dependencies/apps/sketchybar if not already installed."
 brew tap FelixKratz/formulae
 install sketchybar
+
+step "Installing dependencies/apps/borders if not already installed."
+install borders
 
 step "Tapping koekeishiya repo"
 brew tap koekeishiya/formulae
@@ -68,8 +71,11 @@ install skhd
 step "Installing dependencies/apps/kitty if not already installed"
 install --cask kitty
 
-step "installing dependencies/apps/jq if not already installed"
+step "Installing dependencies/apps/jq if not already installed."
 install jq
+
+step "Installing dependencies/apps/btop if not already installed."
+install btop
 
 step "install wget"
 install wget
@@ -129,5 +135,8 @@ skhd --start-service
 
 # start sketchybar
 brew services start sketchybar
+
+# start borders
+brew services start borders
 
 step "That's All, and enjoy it!"
