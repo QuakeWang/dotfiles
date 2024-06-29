@@ -108,9 +108,15 @@ step "Installing dependencies/fonts/sf-symbols"
 brew install --cask sf-symbols
 
 step "Cloning the dotfiles repository"
-git clone git@github.com:QuakeWang/dotfiles.git  ~/.config && cd dotfiles
+git clone git@github.com:QuakeWang/dotfiles.git 
 
 step "Moving everything to the right place"
+cd dotfiles
+for dir in btop fastfetch kitty nvim sketchybar skhd yabai; do
+    mkdir -p ~/.config/$dir
+    cp -rf $dir/* ~/.config/$dir
+    echo "Moved $dir"
+done
 cp starship/starship.toml ~/.config/starship.toml
 echo "Moved starship"
 
