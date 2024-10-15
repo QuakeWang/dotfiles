@@ -1,0 +1,269 @@
+[manager]
+cwd = { fg = "#cdd6f4" }
+
+# Hovered
+hovered = { fg = "#cdd6f4", bg = "#cba6f7" }
+preview_hovered = { fg = "#cba6f7", underline = true }
+
+# Find
+find_keyword = { fg = "#f9e2af", italic = true }
+find_position = { fg = "#cdd6f4", italic = true }
+
+# Marker
+marker_copied   = { fg = "#f9e2af" }
+marker_cut      = { fg = "#f38ba8" }
+marker_marked   = { fg = "#cba6f7" }
+marker_selected = { fg = "#89b4fa" }
+
+# Tab
+tab_active = { fg = "#cdd6f4", bg = "#cba6f7" }
+tab_inactive = { fg = "#cdd6f4", bg = "#45475a" }
+tab_width = 1
+
+# Count
+count_copied   = { fg = "#1e1e2e", bg = "#f9e2af" }
+count_cut      = { fg = "#cdd6f4", bg = "#f38ba8" }
+count_selected = { fg = "#cdd6f4", bg = "#cba6f7" }
+
+# Border
+border_symbol = "│"
+border_style = { fg = "#cdd6f4" }
+
+# Offset
+folder_offset = [1, 0, 1, 0]
+preview_offset = [1, 1, 1, 1]
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#cba6f7", bg = "reset" }
+
+# Mode
+mode_normal = { fg = "#cdd6f4", bg = "#cba6f7", bold = true }
+mode_select = { fg = "#cdd6f4", bg = "#cba6f7", bold = true }
+mode_unset = { fg = "#cdd6f4", bg = "#cba6f7", bold = true }
+
+# Progress
+progress_label = { bold = true }
+progress_normal = { fg = "#cdd6f4" }
+progress_error = { fg = "#f38ba8" }
+
+# Permissions
+permissions_t = { fg = "#a6e3a1" }
+permissions_r = { fg = "#f9e2af" }
+permissions_w = { fg = "#f38ba8" }
+permissions_x = { fg = "#89dceb" }
+permissions_s = { fg = "#6c7086" }
+
+[select]
+border = { fg = "#89b4fa" }
+active = { fg = "#cba6f7" }
+inactive = {}
+
+[input]
+border = { fg = "#cdd6f4" }
+title = {}
+value = {}
+selected = { reversed = true }
+
+[completion]
+border = { fg = "#89b4fa" }
+active = { bg = "#45475a" }
+inactive = {}
+
+icon_file = ""
+icon_folder = ""
+icon_command = ""
+
+[tasks]
+border = { fg = "#89b4fa" }
+title = {}
+hovered = { underline = true }
+
+[which]
+mask = {}
+cand = { fg = "#89dceb" }
+rest = { fg = "#6c7086" }
+desc = { fg = "#cdd6f4" }
+separator = "  "
+separator_style = { fg = "#6c7086" }
+
+[help]
+on = { fg = "#cba6f7" }
+exec = { fg = "#89dceb" }
+desc = { fg = "#bac2de" }
+hovered = { bg = "#45475a", bold = true }
+footer = { fg = "#1e1e2e", bg = "#cdd6f4" }
+
+[filetype]
+
+rules = [
+    # Images
+    { mime = "image/*", fg = "#89dceb" },
+
+    # Videos
+    { mime = "video/*", fg = "#f9e2af" },
+    { mime = "audio/*", fg = "#f9e2af" },
+
+    # Archives
+    { mime = "application/zip", fg = "#cba6f7" },
+    { mime = "application/gzip", fg = "#cba6f7" },
+    { mime = "application/x-tar", fg = "#cba6f7" },
+    { mime = "application/x-bzip", fg = "#cba6f7" },
+    { mime = "application/x-bzip2", fg = "#cba6f7" },
+    { mime = "application/x-7z-compressed", fg = "#cba6f7" },
+    { mime = "application/x-rar", fg = "#cba6f7" },
+    { mime = "application/xz", fg = "#cba6f7" },
+
+    # Documents
+    { mime = "application/doc", fg = "#a6e3a1" },
+    { mime = "application/pdf", fg = "#a6e3a1" },
+    { mime = "application/rtf", fg = "#a6e3a1" },
+    { mime = "application/vnd.*", fg = "#a6e3a1" },
+
+    # Fallback
+    { name = "*/", fg = "#89b4fa" },
+]
+
+[icons]
+
+"Desktop/" = ""
+"Documents/" = ""
+"Downloads/" = "󰇚"
+"Library/" = ""
+"Music/" = ""
+"Pictures/" = ""
+"Videos/" = ""
+"Games/" = "󰖺"
+"repos/" = ""
+".config/" = ""
+"work/" = ""
+
+# Git
+".git/" = ""
+".gitignore" = ""
+".gitmodules" = ""
+".gitattributes" = ""
+
+# Config files
+".zshenv" = ""
+"zsh_*" = ""
+".*profile" = ""
+".*rc" = ""
+"*.conf" = ""
+"*.env" = ""
+"*.toml" = ""
+"*.ini" = ""
+
+# Text
+"*.txt" = ""
+"*.md" = ""
+"*.rst" = ""
+COPYING = "󰿃"
+LICENSE = "󰿃"
+
+# Archives
+"*.zip" = ""
+"*.tar" = ""
+"*.gz" = ""
+"*.7z" = ""
+"*.bz2" = ""
+"*.xz" = ""
+
+# Documents
+"*.csv" = ""
+"*.doc" = ""
+"*.doct" = ""
+"*.docx" = ""
+"*.dot" = ""
+"*.ods" = ""
+"*.ots" = ""
+"*.pdf" = ""
+"*.pom" = ""
+"*.pot" = ""
+"*.ppm" = ""
+"*.pps" = ""
+"*.ppt" = ""
+"*.potx" = ""
+"*.ppmx" = ""
+"*.ppsx" = ""
+"*.pptx" = ""
+"*.xlc" = ""
+"*.xlm" = ""
+"*.xls" = ""
+"*.xlt" = ""
+"*.xlsm" = ""
+"*.xlsx" = ""
+
+# Audio
+"*.mp3" = ""
+"*.flac" = ""
+"*.wav" = ""
+"*.aac" = ""
+"*.ogg" = ""
+"*.m4a" = ""
+"*.mp2" = ""
+
+# Movies
+"*.mp4" = ""
+"*.mkv" = ""
+"*.avi" = ""
+"*.mov" = ""
+"*.webm" = ""
+
+# Images
+"*.jpg" = ""
+"*.jpeg" = ""
+"*.png" = ""
+"*.gif" = ""
+"*.webp" = ""
+"*.avif" = ""
+"*.bmp" = ""
+"*.ico" = ""
+"*.svg" = ""
+"*.xcf" = ""
+"*.HEIC" = ""
+
+# Programming
+"*.c" = ""
+"*.cpp" = ""
+"*.h" = ""
+"*.hpp" = ""
+"*.rs" = ""
+"*.go" = ""
+"*.py" = ""
+"*.js" = ""
+"*.ts" = ""
+"*.tsx" = ""
+"*.jsx" = ""
+"*.rb" = ""
+"*.php" = ""
+"*.java" = ""
+"*.sh" = ""
+"*.fish" = ""
+"*.swift" = ""
+"*.vim" = ""
+"*.lua" = ""
+"*.html" = ""
+"*.css" = ""
+"*.scss" = ""
+"*.json" = ""
+"*.yml" = ""
+"*.yaml" = ""
+"*.lock" = ""
+"*.nix" = ""
+Containerfile = "󰡨"
+Dockerfile = "󰡨"
+"node_modules/" = "󰎙"
+"src/" = ""
+"build/" = "󱌢"
+"target/" = "󱌢"
+
+# Misc
+"*.bin" = ""
+"*.exe" = ""
+"*.pkg" = ""
+
+# Default
+"*" = ""
+"*/" = ""

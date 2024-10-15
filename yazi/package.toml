@@ -1,0 +1,14 @@
+[plugin]
+deps = [
+    { use = "Reledia/glow", commit = "536185a" },
+    { use = "Sonico98/exifaudio", commit = "92366cf" },
+    { use = "ndtoan96/ouch", commit = "fe6b0a6" },
+    { use = "dedukun/bookmarks", commit = "748efed" },
+    # { use = "DreamMaoMao/fg", commit = "677688a" },
+    { use = "Rolv-Apneseth/bypass", commit = "619500e" },
+    { use = "Rolv-Apneseth/starship", commit = "f386ea3" },
+    { use = "yazi-rs/plugins#chmod", commit = "06e5fe1" },
+]
+
+[flavor]
+deps = []
