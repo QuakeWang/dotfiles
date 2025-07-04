@@ -24,22 +24,31 @@ export PNPM_HOME=$HOME/Library/pnpm
 export LESSKEYIN=$HOME/.config/less/.lesskey
 export LESSHISTFILE=$HOME/.config/less/.lesshst
 
-export FZF_DEFAULT_COMMAND="fd $__FD_COMMAND"
+export FZF_COMPLETION_TRIGGER='\'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS="
---reverse --ansi --no-multi
---bind=ctrl-u:up,ctrl-e:down,ctrl-n:backward-char,ctrl-i:forward-char,ctrl-b:backward-word,ctrl-h:forward-word
---border --color=dark
---color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
+  --height 50% --layout=reverse --border --cycle
+  --preview-window=right:60%:wrap
+  --bind=ctrl-h:backward-char,ctrl-l:forward-char,ctrl-j:down,ctrl-k:up
+  --color=bg:#1e1e2e,bg+:#313244,spinner:#f5e0dc,hl:#f38ba8
+  --color=fg:#cdd6f4,fg+:#cdd6f4,header:#f38ba8,info:#cba6f7
+  --color=pointer:#f5e0dc,marker:#f5e0dc,prompt:#cba6f7
+  --color=border:#6c7086,gutter:#1e1e2e
+  --prompt='❯ ' --pointer='❯' --marker='❯'
+  --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || 
+             ([[ -d {} ]] && (ls -la --color=always {} | less)) || 
+             echo {} 2> /dev/null | head -200'
 "
-if [[ -v __FZF_PREVIEW ]]; then
-	unset __FZF_PREVIEW
-	FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
---preview='(
-	bat --color=always {} ||
-	tree -ahpCL 3 $__TREE_IGNORE {}
-) 2>/dev/null | head -n 100'"
-fi
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window=down:3:wrap
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+"
+export FZF_CTRL_T_OPTS="
+  --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || 
+             ([[ -d {} ]] && (ls -la --color=always {} | less)) || 
+             echo {} 2> /dev/null | head -200'
+  --bind 'ctrl-/:change-preview-window(down|hidden|right)'
+"
 
 # Clean up
 unset __TREE_IGNORE
