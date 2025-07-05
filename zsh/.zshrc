@@ -29,7 +29,7 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
 if [[ "$(uname -sm)" = "Darwin arm64" ]]; then export PATH=/opt/homebrew/bin:$PATH; fi
 
-JAVA_HOME=/Users/wangerxi/opt/jdk-17.0.12.jdk/Contents/Home
+JAVA_HOME=~/opt/jdk-17.0.12.jdk/Contents/Home
 export PATH=$JAVA_HOME/bin:\
 ~/opt/apache-maven-3.8.8/bin:\
 /usr/local/mysql/bin:\
@@ -47,7 +47,7 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
 
-autoload -U compinit; compinit
+autoload -U compinit; compinit -C
 zmodload zsh/complist
 autoload -Uz edit-command-line; zle -N edit-command-line
 
