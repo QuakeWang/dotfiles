@@ -64,30 +64,56 @@ function gpr() {
 
 # NVM lazy loading
 function load_nvm() {
-	if [ -n "$NVM_LOADED" ]; then
-		return
+	local silent="${1:-false}"
+
+	if [[ -n "$NVM_LOADED" ]] && typeset -f nvm >/dev/null 2>&1; then
+		return 0
 	fi
 	
 	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
+	if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+		\. "$NVM_DIR/nvm.sh"
+	else
+		[[ "$silent" == "true" ]] || echo "nvm.sh not found: $NVM_DIR/nvm.sh" >&2
+		return 1
+	fi
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 	
 	export NVM_LOADED=1
+	return 0
 }
 
 nvm() {
-	load_nvm
-	command nvm "$@"
+	unset -f nvm node npm npx
+	load_nvm false || return 1
+	nvm "$@"
 }
 
 node() {
-	load_nvm
-	command node "$@"
+	unset -f nvm node npm npx
+	if ! load_nvm true; then
+		command node "$@"
+		return $?
+	fi
+	node "$@"
 }
 
 npm() {
-	load_nvm
-	command npm "$@"
+	unset -f nvm node npm npx
+	if ! load_nvm true; then
+		command npm "$@"
+		return $?
+	fi
+	npm "$@"
+}
+
+npx() {
+	unset -f nvm node npm npx
+	if ! load_nvm true; then
+		command npx "$@"
+		return $?
+	fi
+	npx "$@"
 }
 
 # Enhanced command line editing

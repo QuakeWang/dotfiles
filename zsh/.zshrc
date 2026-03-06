@@ -40,7 +40,7 @@ $HOME/Library/Python/3.13/bin:$PATH
 
 export RUSTUP_DIST_SERVER="https://rsproxy.cn"
 export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
 export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
@@ -51,13 +51,16 @@ autoload -U compinit; compinit -C
 zmodload zsh/complist
 autoload -Uz edit-command-line; zle -N edit-command-line
 
-source $ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh
-fpath=($ZSHAREDIR/zsh-completions/src $fpath)
+[[ -f "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -d "$ZSHAREDIR/zsh-completions/src" ]] && fpath=("$ZSHAREDIR/zsh-completions/src" $fpath)
 
-FZF_BASE=$(brew --prefix)/opt/fzf
+FZF_BASE="/opt/homebrew/opt/fzf"
+if [[ ! -d "$FZF_BASE" ]] && command -v brew >/dev/null 2>&1; then
+  FZF_BASE="$(brew --prefix)/opt/fzf"
+fi
 [[ $- == *i* ]] && source $FZF_BASE/shell/completion.zsh 2> /dev/null
-source $FZF_BASE/shell/key-bindings.zsh
+[[ -f "$FZF_BASE/shell/key-bindings.zsh" ]] && source "$FZF_BASE/shell/key-bindings.zsh"
 
 zstyle ":completion:*:*:*:*:*" menu select
 zstyle ":completion:*" use-cache yes
@@ -69,8 +72,6 @@ zstyle ":completion:*" matcher-list "m:{[:lower:][:upper:]}={[:upper:][:lower:]}
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
-source ~/.config/smart-suggestion/smart-suggestion.plugin.zsh
 
 source $ZDOTDIR/keymap.zsh
 source $ZDOTDIR/function.zsh
-
