@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
+# Load the scripting addition only when passwordless sudo is configured.
+if sudo -n true >/dev/null 2>&1; then
+  yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+  sudo yabai --load-sa
+fi
 
 # global settings
 yabai -m config mouse_follows_focus off

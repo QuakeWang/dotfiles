@@ -1,6 +1,20 @@
 #!/bin/bash
 
 WIDTH=100
+HIDE_DELAY=2
+STATE_FILE="/tmp/sketchybar-volume-hide.state"
+
+schedule_hide() {
+  local token
+  token="$(date +%s)-$$-$RANDOM"
+  echo "$token" > "$STATE_FILE"
+
+  (
+    sleep "$HIDE_DELAY"
+    [ "$(cat "$STATE_FILE" 2>/dev/null)" = "$token" ] || exit 0
+    sketchybar --animate tanh 30 --set "$NAME" slider.width=0
+  ) >/dev/null 2>&1 &
+}
 
 volume_change() {
   source "$CONFIG_DIR/icons.sh"
@@ -18,18 +32,10 @@ volume_change() {
     *) ICON=$VOLUME_100
   esac
 
-  sketchybar --set volume_icon label=$ICON
-
-  sketchybar --set $NAME slider.percentage=$INFO \
-             --animate tanh 30 --set $NAME slider.width=$WIDTH 
-
-  sleep 2
-
-  # Check wether the volume was changed another time while sleeping
-  FINAL_PERCENTAGE=$(sketchybar --query $NAME | jq -r ".slider.percentage")
-  if [ "$FINAL_PERCENTAGE" -eq "$INFO" ]; then
-    sketchybar --animate tanh 30 --set $NAME slider.width=0
-  fi
+  sketchybar --set volume_icon label="$ICON" \
+             --set "$NAME" slider.percentage="$INFO" \
+             --animate tanh 30 --set "$NAME" slider.width=$WIDTH
+  schedule_hide
 }
 
 mouse_clicked() {
@@ -37,11 +43,11 @@ mouse_clicked() {
 }
 
 mouse_entered() {
-  sketchybar --set $NAME slider.knob.drawing=on
+  sketchybar --set "$NAME" slider.knob.drawing=on
 }
 
 mouse_exited() {
-  sketchybar --set $NAME slider.knob.drawing=off
+  sketchybar --set "$NAME" slider.knob.drawing=off
 }
 
 case "$SENDER" in

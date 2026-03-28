@@ -3,10 +3,7 @@
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15")
 
 # Destroy space on right click, focus space on left click.
-# New space by left clicking separator (>)
-
-sid=0
-spaces=()
+# New space by left clicking separator (>).
 for i in "${!SPACE_ICONS[@]}"; do
 	sid=$(($i + 1))
 
@@ -23,9 +20,11 @@ for i in "${!SPACE_ICONS[@]}"; do
 		label.highlight_color=$WHITE
 		label.font="sketchybar-app-font:Regular:16.0"
 		label.y_offset=-1
+		drawing=off
 		background.color=$BACKGROUND_1
 		background.border_color=$BACKGROUND_2
 		background.drawing=off
+		label=" "
 		label.drawing=off
 		script="$PLUGIN_DIR/space.sh"
 	)
@@ -38,6 +37,7 @@ done
 spaces_bracket=(
 	background.color=$BACKGROUND_1
 	background.border_color=$BACKGROUND_2
+	drawing=off
 )
 
 separator=(
@@ -47,7 +47,7 @@ separator=(
 	padding_right=8
 	label.drawing=off
 	associated_display=active
-	click_script='yabai -m space --create && sketchybar --trigger space_change'
+	click_script='yabai -m space --create && sketchybar --trigger windows_on_spaces --trigger space_change'
 	icon.color=$WHITE
 )
 

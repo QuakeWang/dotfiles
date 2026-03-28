@@ -12,8 +12,8 @@ wechat=(
 	# background.border_width=2
 	# padding_right=10
 	label.padding_right=10
-	script="$PLUGIN_DIR/app_status.sh"
-	click_script="open -a Wechat"
+	script="$PLUGIN_DIR/app_status.sh WeChat"
+	click_script="open -a WeChat"
 )
 
 sketchybar --add item wechat right \

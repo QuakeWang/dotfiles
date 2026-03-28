@@ -11,9 +11,13 @@ PADDINGS=2    # All paddings use this value (icon, label, background)
 
 # Setting up and starting the helper process
 HELPER=git.felix.helper
-killall helper
-(cd $CONFIG_DIR/helper && make)
-$CONFIG_DIR/helper/helper $HELPER >/dev/null 2>&1 &
+HELPER_BIN="$CONFIG_DIR/helper/helper"
+rm -f /tmp/sketchybar-icon-map.cache /tmp/sketchybar-volume-hide.state
+if [ ! -x "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/helper.c" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/cpu.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/sketchybar.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/makefile" -nt "$HELPER_BIN" ]; then
+  (cd "$CONFIG_DIR/helper" && make)
+fi
+killall helper >/dev/null 2>&1
+"$HELPER_BIN" "$HELPER" >/dev/null 2>&1 &
 
 # Unload the macOS on screen indicator overlay for volume change
 launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/dev/null 2>&1 &
@@ -90,5 +94,6 @@ source "$ITEM_DIR/cpu.sh"
 
 # Forcing all item scripts to run (never do this outside of sketchybarrc)
 sketchybar --update
+sketchybar --trigger windows_on_spaces
 
 echo "sketchybar configuation loaded.."

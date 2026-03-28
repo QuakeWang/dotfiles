@@ -1,5 +1,7 @@
 #!/bin/bash
 
+YABAI_BIN="${YABAI_BIN:-$(command -v yabai 2>/dev/null || echo /opt/homebrew/bin/yabai)}"
+
 update() {
   source "$CONFIG_DIR/colors.sh"
   COLOR=$BACKGROUND_2
@@ -13,10 +15,10 @@ update() {
 
 mouse_clicked() {
   if [ "$BUTTON" = "right" ]; then
-    yabai -m space --destroy $SID
+    "$YABAI_BIN" -m space --destroy "$SID"
     sketchybar --trigger windows_on_spaces --trigger space_change
   else
-    yabai -m space --focus $SID 2>/dev/null
+    "$YABAI_BIN" -m space --focus "$SID" 2>/dev/null
   fi
 }
 
