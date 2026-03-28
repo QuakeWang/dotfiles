@@ -62,6 +62,9 @@ function gpr() {
 	git checkout -b "pr-$(openssl rand -hex 4)"
 }
 
+# TODO: Decide whether to keep NVM for multi-version Node.js or migrate to
+# Nix-managed nodejs (add to software.nix). NVM is currently used as an
+# escape hatch outside the Nix-first workflow.
 # NVM lazy loading
 function load_nvm() {
 	local silent="${1:-false}"

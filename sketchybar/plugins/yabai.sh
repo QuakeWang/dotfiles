@@ -3,8 +3,11 @@
 ICON_MAP_SCRIPT="$CONFIG_DIR/plugins/icon_map.sh"
 ICON_CACHE_FILE="/tmp/sketchybar-icon-map.cache"
 SPACE_LABEL_CACHE_FILE="/tmp/sketchybar-space-label.cache"
-YABAI_BIN="${YABAI_BIN:-$(command -v yabai 2>/dev/null || echo /opt/homebrew/bin/yabai)}"
-JQ_BIN="${JQ_BIN:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
+YABAI_BIN="${YABAI_BIN:-$(command -v yabai 2>/dev/null || true)}"
+JQ_BIN="${JQ_BIN:-$(command -v jq 2>/dev/null || true)}"
+
+[ -n "$YABAI_BIN" ] || exit 0
+[ -n "$JQ_BIN" ] || exit 0
 
 yabai_query() {
   local out

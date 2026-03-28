@@ -1,6 +1,7 @@
 #!/bin/bash
 
-YABAI_BIN="${YABAI_BIN:-$(command -v yabai 2>/dev/null || echo /opt/homebrew/bin/yabai)}"
+YABAI_BIN="${YABAI_BIN:-$(command -v yabai 2>/dev/null || true)}"
+[ -n "$YABAI_BIN" ] || exit 0
 
 update() {
   source "$CONFIG_DIR/colors.sh"

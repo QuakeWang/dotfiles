@@ -11,10 +11,12 @@ PADDINGS=2    # All paddings use this value (icon, label, background)
 
 # Setting up and starting the helper process
 HELPER=git.felix.helper
-HELPER_BIN="$CONFIG_DIR/helper/helper"
-rm -f /tmp/sketchybar-icon-map.cache /tmp/sketchybar-volume-hide.state
+HELPER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/sketchybar/helper"
+HELPER_BIN="$HELPER_CACHE_DIR/helper"
+mkdir -p "$HELPER_CACHE_DIR"
+rm -f /tmp/sketchybar-space-label.cache /tmp/sketchybar-window-apps.snapshot /tmp/sketchybar-icon-map.cache /tmp/sketchybar-volume-hide.state
 if [ ! -x "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/helper.c" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/cpu.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/sketchybar.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/makefile" -nt "$HELPER_BIN" ]; then
-  (cd "$CONFIG_DIR/helper" && make)
+  (cd "$CONFIG_DIR/helper" && make HELPER_BIN="$HELPER_BIN")
 fi
 killall helper >/dev/null 2>&1
 "$HELPER_BIN" "$HELPER" >/dev/null 2>&1 &
@@ -31,13 +33,12 @@ bar=(
 	shadow=on
 	position=top
 	sticky=on
-	padding_right=3
-	padding_left=3
+	padding_right=2
+	padding_left=2
 	y_offset=2
-	margin=8
+	margin=6
 	corner_radius=10
 	blur_radius=20
-	shadow=on
 )
 
 sketchybar --bar "${bar[@]}"

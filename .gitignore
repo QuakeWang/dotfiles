@@ -1,0 +1,5 @@
+/sketchybar/helper/helper
+/result
+/zsh/.zcompdump*
+*.hm-backup
+.DS_Store

@@ -22,45 +22,25 @@ function fzf-find-file-and-edit() {
   fi
 }
 
-export PATH=$HOME/.atuin/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/Library/pnpm:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$HOME/go/bin:$PATH
-if [[ "$(uname -sm)" = "Darwin arm64" ]]; then export PATH=/opt/homebrew/bin:$PATH; fi
+ORBSTACK_COMPLETIONS="/Applications/OrbStack.app/Contents/Resources/completions/zsh"
+if [[ -d "$ORBSTACK_COMPLETIONS" ]]; then
+  fpath=("$ORBSTACK_COMPLETIONS" $fpath)
+fi
 
-JAVA_HOME=~/opt/jdk-17.0.12.jdk/Contents/Home
-export PATH=$JAVA_HOME/bin:\
-~/opt/apache-maven-3.8.8/bin:\
-/usr/local/mysql/bin:\
-/opt/homebrew/opt/llvm@16/bin:\
-/opt/homebrew/opt/bison/bin:\
-/opt/homebrew/opt/texinfo/bin:\
-$HOME/Library/Python/3.13/bin:$PATH
-
-export RUSTUP_DIST_SERVER="https://rsproxy.cn"
-export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
-[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
-
-export HOMEBREW_API_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api"
-export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
-export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-
+fpath=("$ZSHAREDIR/site-functions" $fpath)
 autoload -U compinit; compinit -C
 zmodload zsh/complist
 autoload -Uz edit-command-line; zle -N edit-command-line
 
-[[ -f "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-[[ -f "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
-[[ -d "$ZSHAREDIR/zsh-completions/src" ]] && fpath=("$ZSHAREDIR/zsh-completions/src" $fpath)
+[[ -f "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] &&
+  source "$ZSHAREDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -f "$ZSHAREDIR/zsh-history-substring-search/zsh-history-substring-search.zsh" ]] &&
+  source "$ZSHAREDIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
+[[ -f "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] &&
+  source "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-FZF_BASE="/opt/homebrew/opt/fzf"
-if [[ ! -d "$FZF_BASE" ]] && command -v brew >/dev/null 2>&1; then
-  FZF_BASE="$(brew --prefix)/opt/fzf"
-fi
-[[ $- == *i* ]] && source $FZF_BASE/shell/completion.zsh 2> /dev/null
-[[ -f "$FZF_BASE/shell/key-bindings.zsh" ]] && source "$FZF_BASE/shell/key-bindings.zsh"
+[[ $- == *i* ]] && source "$ZSHAREDIR/fzf/completion.zsh" 2> /dev/null
+[[ -f "$ZSHAREDIR/fzf/key-bindings.zsh" ]] && source "$ZSHAREDIR/fzf/key-bindings.zsh"
 
 zstyle ":completion:*:*:*:*:*" menu select
 zstyle ":completion:*" use-cache yes
