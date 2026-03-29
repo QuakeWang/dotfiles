@@ -1,6 +1,6 @@
 # Zsh root
-ZDOTDIR=$HOME/.config/zsh
-ZSHAREDIR=$HOME/.local/share/zsh
+ZDOTDIR="$HOME/.config/zsh"
+: "${ZSHAREDIR:=$HOME/.local/share/zsh}"
 
 # Zsh related
 HISTFILE=$ZDOTDIR/.history
@@ -9,23 +9,19 @@ SAVEHIST=10000
 KEYTIMEOUT=1  # makes the switch between modes quicker
 HISTORY_SUBSTRING_SEARCH_PREFIXED=1  # enables prefixed search for zsh-history-substring-search
 
-# Temporary variables
-__TREE_IGNORE="-I '.git' -I '*.py[co]' -I '__pycache__' $__TREE_IGNORE"
-__FD_COMMAND="-L -H --no-ignore-vcs ${__TREE_IGNORE//-I/-E} $__FD_COMMAND"
-
 # Software specific
 export EDITOR="nvim"
 export VISUAL="nvim"
 
 export BAT_THEME="Catppuccin Mocha"
 export HOMEBREW_NO_ANALYTICS=1
-export PNPM_HOME=$HOME/Library/pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
 
-export LESSKEYIN=$HOME/.config/less/.lesskey
-export LESSHISTFILE=$HOME/.config/less/.lesshst
+export LESSKEYIN="$HOME/.config/less/.lesskey"
+export LESSHISTFILE="$HOME/.config/less/.lesshst"
 
 export FZF_COMPLETION_TRIGGER='\'
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 export FZF_DEFAULT_OPTS="
   --height 50% --layout=reverse --border --cycle
   --preview-window=right:60%:wrap
@@ -50,6 +46,24 @@ export FZF_CTRL_T_OPTS="
   --bind 'ctrl-/:change-preview-window(down|hidden|right)'
 "
 
-# Clean up
-unset __TREE_IGNORE
-unset __FD_COMMAND
+typeset -U path PATH
+
+path=(
+  "$HOME/.local/bin"
+  "$PNPM_HOME"
+  "$HOME/go/bin"
+  "$HOME/.cargo/bin"
+  "$HOME/.nix-profile/bin"
+  "/etc/profiles/per-user/$USER/bin"
+  "/run/current-system/sw/bin"
+  "/nix/var/nix/profiles/default/bin"
+  "/opt/homebrew/bin"
+  "/opt/homebrew/sbin"
+  $path
+)
+
+REGION_ZSH_FILE="$ZDOTDIR/regions/${DOTFILES_REGION:-default}.zsh"
+[[ -f "$REGION_ZSH_FILE" ]] && source "$REGION_ZSH_FILE"
+
+LOCAL_ZSH_COMMON_FILE="$HOME/.config/zsh-local/common.zsh"
+[[ -f "$LOCAL_ZSH_COMMON_FILE" ]] && source "$LOCAL_ZSH_COMMON_FILE"

@@ -1,43 +1,56 @@
 # dotfiles
 
-Personal macOS dotfiles for:
+macOS dotfiles managed with Nix, Home Manager, and nix-darwin.
 
-- terminal workflow (`zsh`, `kitty`, `starship`, `fastfetch`, `btop`, `bat`, `yazi`)
-- editor workflow (`nvim`, `vscode`)
-- window management and bar (`yabai`, `skhd`, `sketchybar`, `borders`)
+Config files live in this repo; Nix installs software, links them into place, and manages launchd services. Identity, secrets, and machine-local state stay in local include files outside the repo.
 
-## Quick Start (new machine)
+## Quick Start
 
-```bash
-git clone https://github.com/QuakeWang/dotfiles.git
-cd dotfiles
-bash setup.sh
-```
-
-After setup:
+On a **fresh Mac**, clone and run the bootstrap script — it handles Xcode CLT, Nix, Homebrew, and the first `darwin-rebuild` automatically:
 
 ```bash
-exec zsh -l
+git clone https://github.com/QuakeWang/dotfiles.git && cd dotfiles
+./bootstrap.sh
 ```
 
-## What `setup.sh` does
-
-- installs Homebrew (if missing)
-- installs required formula/casks and fonts
-- copies configs into `~/.config/*`
-- copies VSCode settings to `~/Library/Application Support/Code/User/settings.json`
-- links `~/.zshenv -> ~/.config/zsh/.zshenv` (so `ZDOTDIR` config is active)
-- starts `yabai`, `skhd`, `sketchybar`, `borders` services
-
-## Sync local changes back to repo
+Subsequent updates:
 
 ```bash
-bash update.sh
+sudo darwin-rebuild switch --flake .#erxis-macbook-pro
 ```
 
-This copies your local config from `~/.config` back into this repository.
+> Newly added files must be `git add`ed before rebuild (Git flake requirement).
 
-## Notes
+## What Is Managed
 
-- `yabai` may require additional macOS permissions / scripting addition setup for full functionality.
-- `nvim` uses LazyVim + lazy.nvim and will install plugins on first launch.
+| Layer | Manages |
+|-------|---------|
+| Home Manager | zsh, nvim, kitty, bat, btop, fastfetch, yazi, starship, git, ssh, VS Code settings, sketchybar, zsh plugins |
+| nix-darwin | macOS defaults, yabai, skhd, sketchybar, jankyborders, login shell, Nix settings |
+| Homebrew (via nix-darwin) | kitty, google-chrome, fonts, switchaudio-osx |
+
+## Private Local Overlays
+
+Create these only if needed — they are not part of flake evaluation:
+
+- `~/.config/git/local.gitconfig` — Git identity and signing
+- `~/.ssh/config.local` — private SSH hosts
+- `~/.config/zsh-local/common.zsh` — private shell overrides
+
+## Shell Layering
+
+```
+~/.zshenv (HM-generated)
+  → source darwinSetEnvironment
+  → source ~/.config/zsh/.zshenv     # env vars, PATH, region overlay
+      → source regions/<region>.zsh  # e.g. cn.zsh for China mirrors
+
+~/.config/zsh/.zshrc                 # interactive: plugins, starship, atuin
+  → keymap.zsh, function.zsh
+```
+
+## New Machine
+
+1. Clone repo and run `./bootstrap.sh`.
+2. Create local overlay files as needed.
+3. Grant macOS permissions (Accessibility for yabai/skhd).

@@ -14,6 +14,9 @@ case $@ in
 "FaceTime")
   icon_result=":face_time:"
   ;;
+"Arc")
+  icon_result=":arc:"
+  ;;
 "Affinity Publisher")
   icon_result=":affinity_publisher:"
   ;;
@@ -209,6 +212,18 @@ case $@ in
 "微信" | "WeChat")
   icon_result=":wechat:"
   ;;
+"企业微信" | "WeCom")
+  icon_result=":wecom:"
+  ;;
+"Feishu" | "Lark")
+  icon_result=":wecom:"
+  ;;
+"PDF Reader Pro")
+  icon_result=":pdf:"
+  ;;
+"DingTalk" | "DingTalk Meeting & Webinar")
+  icon_result=":dingtalk:"
+  ;;
 "Typora")
   icon_result=":text:"
   ;;
@@ -247,6 +262,9 @@ case $@ in
   ;;
 "QQ音乐")
   icon_result=":qqmusic:"
+  ;;
+"QQ")
+  icon_result=":qq:"
   ;;
 "Music" | "NetEaseMusic" | "QQ音乐")
   icon_result=":music:"
@@ -344,7 +362,7 @@ case $@ in
 "1Password 7")
   icon_result=":one_password:"
   ;;
-"Code" | "Code - Insiders" | "Cursor")
+"Code" | "Code - Insiders" | "Cursor" | "Antigravity" | "Electron")
   icon_result=":code:"
   ;;
 "VSCodium")
@@ -374,7 +392,7 @@ case $@ in
 "Podcasts")
   icon_result=":podcasts:"
   ;;
-"Alacritty" | "Hyper" | "iTerm2" | "Terminal" | "WezTerm")
+"Alacritty" | "Hyper" | "iTerm2" | "Terminal" | "WezTerm" | "Tabby" | "Warp")
   icon_result=":terminal:"
   ;;
 "kitty")
@@ -394,6 +412,21 @@ case $@ in
   ;;
 "Sequel Ace")
   icon_result=":sequel_ace:"
+  ;;
+"OpenVPN Connect")
+  icon_result=":openvpn_connect:"
+  ;;
+"WeRead" | "微信读书")
+  icon_result=":book:"
+  ;;
+"iPhone Mirroring")
+  icon_result=":iphone_mirroring:"
+  ;;
+"Feishu Meetings" | "Lark Meetings" | "TencentMeeting")
+  icon_result=":meetings:"
+  ;;
+"Zed")
+  icon_result=":zed:"
   ;;
 *)
   icon_result=":default:"
