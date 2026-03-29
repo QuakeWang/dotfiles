@@ -95,6 +95,10 @@ let
       source = "nix";
       package = "nixfmt";
     };
+    nodejs = {
+      source = "nix";
+      package = "nodejs_24";
+    };
   };
 
   homebrewFormulae = {
@@ -120,6 +124,9 @@ let
       source = "cask";
     };
     kitty = {
+      source = "cask";
+    };
+    "visual-studio-code" = {
       source = "cask";
     };
   };

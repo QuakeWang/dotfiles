@@ -10,6 +10,9 @@
       compression = true;
       serverAliveCountMax = 5;
       serverAliveInterval = 30;
+      setEnv = {
+        TERM = "xterm-256color";
+      };
     };
   };
 }

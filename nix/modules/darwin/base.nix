@@ -17,19 +17,6 @@ in
     DOTFILES_REGION = region;
   };
   environment.systemPackages = software.nix;
-  # nix-darwin already knows the stock macOS shell files plus several
-  # official/Determinate installer variants. Keep only extra installer hashes
-  # we have actually observed but that are not yet covered upstream.
-  #
-  # If a fresh machine still fails with a "/etc/... hash mismatch", run:
-  #   shasum -a 256 /etc/bashrc /etc/zshrc
-  # and append the reported installer hashes below.
-  environment.etc."bashrc".knownSha256Hashes = [
-    "8b5e3466922d1ae34bc145e21c7e53e7329a7a7b58b148b436bd954d5e651ac3" # official Nix installer 2.34.4
-  ];
-  environment.etc."zshrc".knownSha256Hashes = [
-    "af60f7af4a5b4c1b0efe950e3e3f3ee8b136834ecb46fd7dba76f4b66adbc3e1" # official Nix installer 2.34.4
-  ];
 
   programs.zsh = {
     enable = true;

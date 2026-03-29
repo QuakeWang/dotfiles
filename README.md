@@ -4,30 +4,13 @@ macOS dotfiles managed with Nix, Home Manager, and nix-darwin.
 
 Config files live in this repo; Nix installs software, links them into place, and manages launchd services. Identity, secrets, and machine-local state stay in local include files outside the repo.
 
-## Prerequisites
-
-Install on a fresh Mac before anything else:
-
-```bash
-# 1. Xcode Command Line Tools
-xcode-select --install
-
-# 2. Nix
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-
-# 3. Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
 ## Quick Start
+
+On a **fresh Mac**, clone and run the bootstrap script — it handles Xcode CLT, Nix, Homebrew, and the first `darwin-rebuild` automatically:
 
 ```bash
 git clone https://github.com/QuakeWang/dotfiles.git && cd dotfiles
-git add -A
-sudo -H nix --extra-experimental-features "nix-command flakes" \
-  run github:nix-darwin/nix-darwin/master#darwin-rebuild -- \
-  switch --flake .#erxis-macbook-pro
-exec zsh -l
+./bootstrap.sh
 ```
 
 Subsequent updates:
@@ -68,9 +51,6 @@ Create these only if needed — they are not part of flake evaluation:
 
 ## New Machine
 
-1. Install prerequisites, clone repo, run bootstrap command above.
+1. Clone repo and run `./bootstrap.sh`.
 2. Create local overlay files as needed.
 3. Grant macOS permissions (Accessibility for yabai/skhd).
-
-> [!NOTE]
-> `/etc/bashrc` or `/etc/zshrc` hash mismatch on first activation? Run `shasum -a 256 /etc/bashrc /etc/zshrc` and append hashes to `nix/modules/darwin/base.nix`.
