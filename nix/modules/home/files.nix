@@ -1,7 +1,6 @@
-{ config, lib, pkgs, darwinSetEnvironment, ... }:
+{ config, lib, pkgs, self, darwinSetEnvironment, ... }:
 let
-  repoRoot = ../../..;
-  sourcePath = path: repoRoot + "/${path}";
+  sourcePath = path: self + "/${path}";
 in
 {
   xdg.enable = true;

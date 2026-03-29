@@ -35,7 +35,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
-              inherit username;
+              inherit self username;
               darwinSetEnvironment = config.system.build.setEnvironment;
             };
             home-manager.users.${username} = import ./nix/modules/home;
