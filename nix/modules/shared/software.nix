@@ -95,6 +95,10 @@ let
       source = "nix";
       package = "nixfmt";
     };
+    prettier = {
+      source = "nix";
+      package = "prettier";
+    };
     nodejs = {
       source = "nix";
       package = "nodejs_24";
