@@ -49,6 +49,8 @@ export FZF_CTRL_T_OPTS="
 typeset -U path PATH
 
 path=(
+  # Keep user-managed npm globals ahead of Homebrew so the active CLI matches
+  # ~/.npmrc's configured prefix and stale brew binaries cannot shadow them.
   "$HOME/.local/bin"
   "$PNPM_HOME"
   "$HOME/go/bin"

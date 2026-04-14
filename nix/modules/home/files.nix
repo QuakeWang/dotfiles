@@ -40,6 +40,18 @@ in
       source ${darwinSetEnvironment}
       source $HOME/.config/zsh/.zshenv
     '';
+    ".zprofile".text = ''
+      # Managed by Home Manager. Keep login-shell logic under ~/.config/zsh.
+      source $HOME/.config/zsh/.zprofile
+    '';
+    ".zshrc".text = ''
+      # Managed by Home Manager. Keep interactive-shell logic under ~/.config/zsh.
+      source $HOME/.config/zsh/.zshrc
+    '';
+    ".npmrc".text = ''
+      registry=https://registry.npmmirror.com
+      prefix=${config.home.homeDirectory}/.local
+    '';
     "Library/Application Support/Code/User/settings.json".source =
       sourcePath "vscode/setting.json";
   };
