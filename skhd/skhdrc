@@ -103,4 +103,4 @@ ctrl + alt - 9 : yabai -m window --space 9; yabai -m space --focus 9; sketchybar
 
 # stop/start yabai
 ctrl + alt - q : launchctl bootout gui/$(id -u)/org.nixos.yabai
-ctrl + alt - s : launchctl bootstrap gui/$(id -u) "$HOME/Library/LaunchAgents/org.nixos.yabai.plist"; launchctl kickstart gui/$(id -u)/org.nixos.yabai
+ctrl + alt - s : if launchctl print gui/$(id -u)/org.nixos.yabai >/dev/null 2>&1; then launchctl kickstart gui/$(id -u)/org.nixos.yabai; else launchctl bootstrap gui/$(id -u) "$HOME/Library/LaunchAgents/org.nixos.yabai.plist" && launchctl kickstart gui/$(id -u)/org.nixos.yabai; fi

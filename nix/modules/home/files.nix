@@ -69,7 +69,7 @@ in
 
   home.activation.windowStackRefresh = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     state_dir="${config.home.homeDirectory}/.local/state/dotfiles/window-stack"
-    uid="$(/usr/bin/id -u "${config.home.username}" 2>/dev/null || /usr/bin/id -u)"
+    uid="$(/usr/bin/id -u)"
     gui_domain="gui/$uid"
 
     if /bin/launchctl print "$gui_domain" >/dev/null 2>&1; then
