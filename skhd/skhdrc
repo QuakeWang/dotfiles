@@ -1,5 +1,5 @@
 # restart yabai
-ctrl + alt + cmd - r : yabai --restart-service
+ctrl + alt + cmd - r : launchctl kickstart -k gui/$(id -u)/org.nixos.yabai
 
 # system control
 cmd + shift - s : osascript -e 'tell application "System Events" to sleep'
@@ -102,5 +102,5 @@ ctrl + alt - 8 : yabai -m window --space 8; yabai -m space --focus 8; sketchybar
 ctrl + alt - 9 : yabai -m window --space 9; yabai -m space --focus 9; sketchybar --trigger windows_on_spaces
 
 # stop/start yabai
-ctrl + alt - q : yabai --stop-service
-ctrl + alt - s : yabai --start-service
+ctrl + alt - q : launchctl bootout gui/$(id -u)/org.nixos.yabai
+ctrl + alt - s : if launchctl print gui/$(id -u)/org.nixos.yabai >/dev/null 2>&1; then launchctl kickstart gui/$(id -u)/org.nixos.yabai; else launchctl bootstrap gui/$(id -u) "$HOME/Library/LaunchAgents/org.nixos.yabai.plist" && launchctl kickstart gui/$(id -u)/org.nixos.yabai; fi

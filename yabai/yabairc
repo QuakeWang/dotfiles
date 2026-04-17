@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Load the scripting addition only when passwordless sudo is configured.
 if sudo -n true >/dev/null 2>&1; then
@@ -62,7 +62,7 @@ unmanaged_apps=(
   "^(NeatDownloadManager|MonitorControl|DesktopLauncher|Loader|KeyboardHolder)$"
   "^(BaiduNetdisk|OpenVPN Connect|OrbStack|Antigravity)$"
   # Media & misc
-  "^(QQ音乐|微信读书|闲鱼|Duolingo|mpv)$"
+  "^(QQ音乐|Music|微信读书|闲鱼|Duolingo|mpv)$"
   # Cloud
   "^(Alibaba Cloud Workspace|Cloud Computer)$"
 )
@@ -70,6 +70,9 @@ unmanaged_apps=(
 for pattern in "${unmanaged_apps[@]}"; do
   yabai -m rule --add app="$pattern" manage=off
 done
+
+# Re-apply rules to windows that were already open before yabai restarted.
+yabai -m rule --apply
 
 # borders is managed by launchd through nix-darwin.
 
