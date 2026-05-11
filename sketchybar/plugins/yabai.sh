@@ -64,7 +64,7 @@ apply_cached_space_labels() {
 
 should_ignore_app() {
   case "$1" in
-    "DesktopLauncher"|"KeyboardHolder"|"Loader"|"MonitorControl"|"Raycast"|"UU Booster"|"cursor激活器"|"iShotHelper")
+    "DesktopLauncher"|"KeyboardHolder"|"Loader"|"MonitorControl"|"Raycast"|"UU Booster"|"cursor激活器"|"iShotHelper"|"OpenVPN Connect")
       return 0
       ;;
   esac
@@ -110,6 +110,31 @@ window_state() {
                  || args+=(icon="$ICON" icon.width=30)
 
   sketchybar -m "${args[@]}"
+}
+
+valid_front_app() {
+  case "$1" in
+    ""|"loginwindow"|"Window Server"|"ControlCenter"|"NotificationCenter")
+      return 1
+      ;;
+  esac
+
+  return 0
+}
+
+front_app() {
+  local app="$INFO"
+
+  if ! valid_front_app "$app"; then
+    app="$(yabai_query --windows --window | "$JQ_BIN" -r '.app // empty' 2>/dev/null)"
+  fi
+
+  if ! valid_front_app "$app"; then
+    app="$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)"
+  fi
+
+  valid_front_app "$app" || return
+  sketchybar --set "$NAME" label="$app"
 }
 
 load_icon_cache() {
@@ -288,7 +313,11 @@ mouse_clicked() {
 case "$SENDER" in
   "mouse.clicked") mouse_clicked
   ;;
-  "forced") exit 0
+  "forced")
+    [ "$NAME" = "front_app" ] && front_app
+    exit 0
+  ;;
+  "front_app_switched" | "front_app_update") front_app
   ;;
   "window_focus") window_state
   ;;

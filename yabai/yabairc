@@ -29,6 +29,14 @@ yabai -m config external_bar all:53:0
 yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
 yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_minimized action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_deminimized action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_hidden action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_visible action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_front_switched action="sketchybar --trigger front_app_update --trigger window_focus"
+yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces --trigger front_app_update"
+yabai -m signal --add event=space_created action="sketchybar --trigger windows_on_spaces --trigger space_change"
+yabai -m signal --add event=space_destroyed action="sketchybar --trigger windows_on_spaces --trigger space_change"
 
 # general space settings
 yabai -m config layout bsp

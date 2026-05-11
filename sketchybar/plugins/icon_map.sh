@@ -65,6 +65,9 @@ case $@ in
 "GitHub Desktop")
   icon_result=":git_hub:"
   ;;
+"Codex")
+  icon_result=":code:"
+  ;;
 "App Store")
   icon_result=":app_store:"
   ;;
@@ -412,6 +415,9 @@ case $@ in
   ;;
 "Sequel Ace")
   icon_result=":sequel_ace:"
+  ;;
+"CC Switch" | "Clash Verge")
+  icon_result=":gear:"
   ;;
 "OpenVPN Connect")
   icon_result=":openvpn_connect:"
