@@ -20,11 +20,25 @@ else
   ok "Xcode Command Line Tools already installed"
 fi
 
-# ── 2. Nix (Determinate Installer) ───────────────────────────────────
-if ! command -v nix &>/dev/null; then
-  info "Installing Nix via Determinate Installer …"
+# ── 2. Nix ───────────────────────────────────────────────────────────
+install_nix_with_determinate() {
   curl --proto '=https' --tlsv1.2 -sSf -L \
     https://install.determinate.systems/nix | sh -s -- install
+}
+
+install_nix_with_official() {
+  curl --proto '=https' --tlsv1.2 -sSf -L \
+    https://nixos.org/nix/install | sh -s -- --daemon
+}
+
+if ! command -v nix &>/dev/null; then
+  info "Installing Nix via Determinate Installer …"
+  if install_nix_with_determinate; then
+    ok "Nix installed via Determinate Installer"
+  else
+    warn "Determinate Installer failed; falling back to official Nix daemon installer"
+    install_nix_with_official
+  fi
   # shellcheck disable=SC1091
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 else

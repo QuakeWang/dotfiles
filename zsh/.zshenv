@@ -17,6 +17,9 @@ export BAT_THEME="Catppuccin Mocha"
 export HOMEBREW_NO_ANALYTICS=1
 export PNPM_HOME="$HOME/Library/pnpm"
 
+export JAVA_8_HOME="${JAVA_8_HOME:-/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home}"
+export JAVA_21_HOME="${JAVA_21_HOME:-/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home}"
+
 export LESSKEYIN="$HOME/.config/less/.lesskey"
 export LESSHISTFILE="$HOME/.config/less/.lesshst"
 
@@ -63,6 +66,25 @@ path=(
   "/opt/homebrew/sbin"
   $path
 )
+
+function use_jdk() {
+  local jdk_home="$1"
+
+  [[ -d "$jdk_home" ]] || return 1
+
+  # Remove the previous selection even when it uses a custom installation path.
+  if [[ -n "${JAVA_HOME:-}" ]]; then
+    path=("${(@)path:#"$JAVA_HOME/bin"}")
+  fi
+  path=("${(@)path:#*/Java/JavaVirtualMachines/*/Contents/Home/bin}")
+  path=("${(@)path:#*/openjdk*/libexec/openjdk.jdk/Contents/Home/bin}")
+  path=("${(@)path:#*/opt/openjdk*/bin}")
+
+  export JAVA_HOME="$jdk_home"
+  path=("$JAVA_HOME/bin" "${path[@]}")
+}
+
+use_jdk "${JAVA_HOME:-$JAVA_8_HOME}"
 
 REGION_ZSH_FILE="$ZDOTDIR/regions/${DOTFILES_REGION:-default}.zsh"
 [[ -f "$REGION_ZSH_FILE" ]] && source "$REGION_ZSH_FILE"

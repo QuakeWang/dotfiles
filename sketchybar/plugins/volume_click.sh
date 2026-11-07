@@ -21,6 +21,7 @@ toggle_detail() {
 }
 
 toggle_devices() {
+  local click_script
   [ -n "$SWITCH_AUDIO_SOURCE_BIN" ] || exit 0
   source "$CONFIG_DIR/colors.sh"
 
@@ -32,10 +33,12 @@ toggle_devices() {
     if [ "${device}" = "$CURRENT" ]; then
       COLOR=$WHITE
     fi
+    printf -v click_script '%q -s %q && sketchybar --set %q label.color=%q --set "$NAME" label.color=%q --set %q popup.drawing=off' \
+      "$SWITCH_AUDIO_SOURCE_BIN" "$device" '/volume.device\.*/' "$GREY" "$WHITE" "$NAME"
     args+=(--add item volume.device.$COUNTER popup."$NAME" \
            --set volume.device.$COUNTER label="${device}" \
                                         label.color="$COLOR" \
-                 click_script="$SWITCH_AUDIO_SOURCE_BIN -s \"${device}\" && sketchybar --set /volume.device\.*/ label.color=$GREY --set \$NAME label.color=$WHITE --set $NAME popup.drawing=off")
+                 click_script="$click_script")
     COUNTER=$((COUNTER+1))
   done <<< "$("$SWITCH_AUDIO_SOURCE_BIN" -a -t output)"
 

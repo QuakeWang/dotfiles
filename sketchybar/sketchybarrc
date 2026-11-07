@@ -15,8 +15,19 @@ HELPER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/sketchybar/helper"
 HELPER_BIN="$HELPER_CACHE_DIR/helper"
 mkdir -p "$HELPER_CACHE_DIR"
 rm -f /tmp/sketchybar-space-label.cache /tmp/sketchybar-window-apps.snapshot /tmp/sketchybar-icon-map.cache /tmp/sketchybar-volume-hide.state
-if [ ! -x "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/helper.c" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/cpu.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/sketchybar.h" -nt "$HELPER_BIN" ] || [ "$CONFIG_DIR/helper/makefile" -nt "$HELPER_BIN" ]; then
-  (cd "$CONFIG_DIR/helper" && make HELPER_BIN="$HELPER_BIN")
+# Nix store files keep an mtime of 1970, so "-nt" never fires after a rebuild.
+# Compare a content hash instead, so a changed helper source always rebuilds.
+HELPER_SRC_HASH="$(
+  cat "$CONFIG_DIR/helper/helper.c" \
+      "$CONFIG_DIR/helper/cpu.h" \
+      "$CONFIG_DIR/helper/sketchybar.h" \
+      "$CONFIG_DIR/helper/makefile" | shasum -a 256 | cut -d' ' -f1
+)"
+HELPER_STAMP="$HELPER_CACHE_DIR/.source-hash"
+if [ ! -x "$HELPER_BIN" ] || [ "$(cat "$HELPER_STAMP" 2>/dev/null)" != "$HELPER_SRC_HASH" ]; then
+  if (cd "$CONFIG_DIR/helper" && make -B HELPER_BIN="$HELPER_BIN"); then
+    printf '%s\n' "$HELPER_SRC_HASH" >"$HELPER_STAMP"
+  fi
 fi
 killall helper >/dev/null 2>&1
 "$HELPER_BIN" "$HELPER" >/dev/null 2>&1 &

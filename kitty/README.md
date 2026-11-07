@@ -4,6 +4,8 @@ This directory is managed by Home Manager and linked into `~/.config/kitty`.
 Kitty itself is installed by nix-darwin through Homebrew, so there is no
 manual copy step for this config.
 
+`kitty.app.icns` is the light icon vendored from <https://github.com/DinkDonk/kitty-icon>. Kitty loads this filename from its configuration directory at startup and applies it through macOS custom-icon metadata, preserving the signed application resources. Restart Kitty after changing the icon; macOS may keep the old Dock icon cached while Kitty is closed.
+
 ## Apply Changes
 
 Run:

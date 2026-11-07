@@ -39,8 +39,17 @@ autoload -Uz edit-command-line; zle -N edit-command-line
 [[ -f "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] &&
   source "$ZSHAREDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-[[ $- == *i* ]] && source "$ZSHAREDIR/fzf/completion.zsh" 2> /dev/null
-[[ -f "$ZSHAREDIR/fzf/key-bindings.zsh" ]] && source "$ZSHAREDIR/fzf/key-bindings.zsh"
+function source-fzf-zsh-script() {
+  [[ -f "$1" ]] || return 0
+
+  # fzf 0.70 restores zsh options with `eval`; zsh 5.9 reports `zle` as
+  # non-changeable during startup. Keep other initialization errors visible.
+  source "$1" 2> >(grep -v "can't change option: zle" >&2)
+}
+
+[[ $- == *i* ]] && source-fzf-zsh-script "$ZSHAREDIR/fzf/completion.zsh"
+source-fzf-zsh-script "$ZSHAREDIR/fzf/key-bindings.zsh"
+unfunction source-fzf-zsh-script
 
 zstyle ":completion:*:*:*:*:*" menu select
 zstyle ":completion:*" use-cache yes

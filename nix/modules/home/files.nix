@@ -58,8 +58,19 @@ in
       registry=https://registry.npmmirror.com
       prefix=${config.home.homeDirectory}/.local
     '';
-    "Library/Application Support/Code/User/settings.json".source = sourcePath "vscode/setting.json";
   };
+
+  home.activation.preserveVscodeSettings = lib.hm.dag.entryBetween [ "linkGeneration" ] [ "writeBoundary" ] ''
+    vscode_settings="$HOME/Library/Application Support/Code/User/settings.json"
+    home_file_pattern="$(readlink -e ${lib.escapeShellArg builtins.storeDir})/*-home-manager-files/*"
+
+    # Convert only Home Manager's link before orphan cleanup removes it.
+    if [[ ! -v DRY_RUN && -L "$vscode_settings" && "$(readlink "$vscode_settings")" == $home_file_pattern ]]; then
+      vscode_settings_copy="$(mktemp "$vscode_settings.XXXXXX")"
+      install -m 600 "$vscode_settings" "$vscode_settings_copy"
+      mv -T "$vscode_settings_copy" "$vscode_settings"
+    fi
+  '';
 
   home.activation.batCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if [ -x "${pkgs.bat}/bin/bat" ]; then

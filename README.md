@@ -25,7 +25,7 @@ sudo darwin-rebuild switch --flake .#erxis-macbook-pro
 
 | Layer | Manages |
 |-------|---------|
-| Home Manager | zsh, nvim, kitty, bat, btop, fastfetch, yazi, starship, git, ssh, VS Code settings, sketchybar, zsh plugins |
+| Home Manager | zsh, nvim, kitty, bat, btop, fastfetch, yazi, starship, git, ssh, sketchybar, zsh plugins |
 | nix-darwin | macOS defaults, yabai, skhd, sketchybar, jankyborders, login shell, Nix settings |
 | Homebrew (via nix-darwin) | kitty, google-chrome, fonts, switchaudio-osx |
 
@@ -48,6 +48,10 @@ Create these only if needed — they are not part of flake evaluation:
 ~/.config/zsh/.zshrc                 # interactive: plugins, starship, atuin
   → keymap.zsh, function.zsh
 ```
+
+## Window Management
+
+SIP remains enabled. Yabai runs as a user agent without a root scripting-addition loader or a passwordless sudo rule. Features that require the scripting addition, such as programmatic Space creation and switching, are unavailable with this configuration. An ordinary `darwin-rebuild switch` removes the previous managed loader and sudoers entry.
 
 ## New Machine
 
