@@ -75,6 +75,10 @@ let
   };
 
   development = {
+    ccusage = {
+      source = "nix";
+      package = "ccusage";
+    };
     gh = {
       source = "nix";
       package = "gh";
@@ -109,16 +113,19 @@ let
     borders = {
       source = "brew";
     };
+    "graykode/tap/abtop" = {
+      source = "brew";
+    };
     sketchybar = {
       source = "brew";
     };
-    skhd = {
+    "koekeishiya/formulae/skhd" = {
       source = "brew";
     };
     "switchaudio-osx" = {
       source = "brew";
     };
-    yabai = {
+    "koekeishiya/formulae/yabai" = {
       source = "brew";
     };
   };
@@ -153,23 +160,15 @@ let
     };
   };
 
-  inventory =
-    shell
-    // terminal
-    // development
-    // homebrewFormulae
-    // applications
-    // fonts;
+  inventory = shell // terminal // development // homebrewFormulae // applications // fonts;
 
-  resolvePackage = package:
-    lib.attrByPath
-      (lib.splitString "." package)
+  resolvePackage =
+    package:
+    lib.attrByPath (lib.splitString "." package)
       (throw "Nix package '${package}' was not found in pkgs")
       pkgs;
 
-  grouped = builtins.groupBy
-    (name: inventory.${name}.source)
-    (builtins.attrNames inventory);
+  grouped = builtins.groupBy (name: inventory.${name}.source) (builtins.attrNames inventory);
 in
 {
   nix = map (name: resolvePackage inventory.${name}.package) (grouped.nix or [ ]);

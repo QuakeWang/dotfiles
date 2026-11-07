@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    ccusage.url = "github:ryoppippi/ccusage";
+    ccusage.inputs.nixpkgs.follows = "nixpkgs";
+
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -11,7 +14,15 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      ccusage,
+      ...
+    }:
     let
       username = "wangerxi";
       region = "cn";
@@ -28,18 +39,26 @@
           ./nix/modules/darwin/homebrew.nix
           ./nix/modules/darwin/services.nix
           home-manager.darwinModules.home-manager
-          ({ config, ... }: {
-            nixpkgs.hostPlatform = system;
+          (
+            { config, ... }:
+            {
+              nixpkgs.hostPlatform = system;
+              nixpkgs.overlays = [
+                (_final: _prev: {
+                  ccusage = ccusage.packages.${system}.ccusage;
+                })
+              ];
 
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.extraSpecialArgs = {
-              inherit self username;
-              darwinSetEnvironment = config.system.build.setEnvironment;
-            };
-            home-manager.users.${username} = import ./nix/modules/home;
-          })
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "hm-backup";
+              home-manager.extraSpecialArgs = {
+                inherit self username;
+                darwinSetEnvironment = config.system.build.setEnvironment;
+              };
+              home-manager.users.${username} = import ./nix/modules/home;
+            }
+          )
         ];
       };
 

@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-# Load the scripting addition only when passwordless sudo is configured.
-if sudo -n true >/dev/null 2>&1; then
-  yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-  sudo yabai --load-sa
-fi
-
 # global settings
 yabai -m config mouse_follows_focus off
 yabai -m config focus_follows_mouse off
@@ -29,6 +23,14 @@ yabai -m config external_bar all:53:0
 yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
 yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_minimized action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_deminimized action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_hidden action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_visible action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=application_front_switched action="sketchybar --trigger front_app_update --trigger window_focus"
+yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces --trigger front_app_update"
+yabai -m signal --add event=space_created action="sketchybar --trigger windows_on_spaces --trigger space_change"
+yabai -m signal --add event=space_destroyed action="sketchybar --trigger windows_on_spaces --trigger space_change"
 
 # general space settings
 yabai -m config layout bsp
@@ -47,6 +49,12 @@ yabai -m rule --add app="^iShotHelper$" manage=off
 yabai -m rule --add subrole="^AXDialog$" manage=off
 yabai -m rule --add subrole="^AXSystemDialog$" manage=off
 yabai -m rule --add subrole="^AXFloatingWindow$" manage=off
+
+# Proxy dashboards should float instead of consuming a BSP tile.
+yabai -m rule --add app="^Clash Verge$" manage=off grid=6:6:1:1:4:4
+
+# Keep the Harness workspace centered and outside the tiling layout.
+yabai -m rule --add label=deepseek-harness app="^DeepSeek Harness$" subrole="^AXStandardWindow$" manage=off grid=10:10:1:1:8:8
 
 # disable specific apps (grouped by category)
 unmanaged_apps=(

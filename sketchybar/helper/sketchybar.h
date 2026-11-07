@@ -4,6 +4,7 @@
 #include <mach/message.h>
 #include <bootstrap.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include <stdio.h>
 
@@ -107,16 +108,11 @@ static inline char* mach_send_message(mach_port_t port, char* message, uint32_t 
     return NULL;
   }
 
-  if (mach_port_insert_right(task, response_port,
-                                   response_port,
-                                   MACH_MSG_TYPE_MAKE_SEND)!= KERN_SUCCESS) {
-    return NULL;
-  }
-
   struct mach_message msg = { 0 };
   msg.header.msgh_remote_port = port;
   msg.header.msgh_local_port = response_port;
   msg.header.msgh_id = response_port;
+  /* MAKE_SEND creates the receiver's reply right from our receive right. */
   msg.header.msgh_bits = MACH_MSGH_BITS_SET(MACH_MSG_TYPE_COPY_SEND,
                                             MACH_MSG_TYPE_MAKE_SEND,
                                             0,
@@ -130,21 +126,37 @@ static inline char* mach_send_message(mach_port_t port, char* message, uint32_t 
   msg.descriptor.deallocate = false;
   msg.descriptor.type = MACH_MSG_OOL_DESCRIPTOR;
 
-  mach_msg(&msg.header,
-           MACH_SEND_MSG,
-           sizeof(struct mach_message),
-           0,
-           MACH_PORT_NULL,
-           MACH_MSG_TIMEOUT_NONE,
-           MACH_PORT_NULL              );
+  mach_msg_return_t result = mach_msg(&msg.header,
+                                      MACH_SEND_MSG,
+                                      sizeof(struct mach_message),
+                                      0,
+                                      MACH_PORT_NULL,
+                                      MACH_MSG_TIMEOUT_NONE,
+                                      MACH_PORT_NULL              );
+  if (result != MACH_MSG_SUCCESS) {
+    mach_port_mod_refs(task, response_port, MACH_PORT_RIGHT_RECEIVE, -1);
+    return NULL;
+  }
 
   struct mach_buffer buffer = { 0 };
   mach_receive_message(response_port, &buffer, true);
-  if (buffer.message.descriptor.address)
-    return (char*)buffer.message.descriptor.address;
-  mach_msg_destroy(&buffer.message.header);
 
-  return NULL;
+  /* Preserve the reply before mach_msg_destroy releases its mapping. */
+  static char reply[8192];
+  reply[0] = '\0';
+  if (buffer.message.descriptor.address) {
+    vm_size_t reply_size = (vm_size_t)buffer.message.descriptor.size;
+    if (reply_size >= sizeof(reply))
+      reply_size = sizeof(reply) - 1;
+
+    memcpy(reply, buffer.message.descriptor.address, reply_size);
+    reply[reply_size] = '\0';
+  }
+
+  mach_msg_destroy(&buffer.message.header);
+  mach_port_mod_refs(task, response_port, MACH_PORT_RIGHT_RECEIVE, -1);
+
+  return reply;
 }
 
 #pragma clang diagnostic push

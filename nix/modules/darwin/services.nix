@@ -21,18 +21,7 @@ let
   ];
 in
 {
-  # Keep yabai on a stable Homebrew path so macOS TCC and the scripting addition
-  # behave like the pre-Nix setup.
-  environment.etc."sudoers.d/yabai".text = ''
-    %admin ALL=(root) NOPASSWD: ${brewBin}/yabai --load-sa
-  '';
-
-  launchd.daemons.yabai-sa = {
-    script = "${brewBin}/yabai --load-sa";
-    serviceConfig.RunAtLoad = true;
-    serviceConfig.KeepAlive.SuccessfulExit = false;
-  };
-
+  # SIP stays enabled; run yabai without a privileged scripting-addition loader.
   launchd.user.agents.yabai = {
     serviceConfig.ProgramArguments = [
       "${brewBin}/yabai"

@@ -21,6 +21,15 @@ alias python="python3"
 alias pip="pip3"
 alias fv='fzf-find-file-and-edit'
 
+# Java
+function jdk8() {
+	use_jdk "$JAVA_8_HOME"
+}
+
+function jdk21() {
+	use_jdk "$JAVA_21_HOME"
+}
+
 # Alias - Git
 alias g='XDG_CONFIG_HOME="$HOME/.config" lazygit'
 alias gs="git status"
